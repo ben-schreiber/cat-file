@@ -1,0 +1,6 @@
+.python-version
+__pycache__/
+**/__pycache__
+.vscode/
+.idea/
+cat_file.egg-info
