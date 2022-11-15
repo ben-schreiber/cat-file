@@ -9,6 +9,7 @@ setup(
     description="A CLI tool to visualize data files",
     author="Ben Schreiber",
     install_requires=["pandas", "tabulate", "pyarrow", "xlrd", "openpyxl"],
+    extras_require={"tests": ["pytest"]},
     entry_points={"console_scripts": ["cat-file = cat_file.main:main"]},
     packages=find_packages(),
     version=versioneer.get_version(),

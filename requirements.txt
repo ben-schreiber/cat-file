@@ -1,6 +1,0 @@
-pandas
-tabulate
-pytest
-xlrd
-openpyxl
-pyarrow
