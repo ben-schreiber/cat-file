@@ -24,6 +24,6 @@ class Excel(DataFile):
     def is_valid_input(buffer: io.BytesIO) -> bool:
         with zero_buffer(buffer) as b:
             try:
-                return inspect_excel_format(b.read()) is not None
+                return inspect_excel_format(b) is not None
             except (ValueError, BadZipfile):
                 return False
