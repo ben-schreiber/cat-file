@@ -1,0 +1,2 @@
+include versioneer.py
+inlcude cat_file/_version.py
