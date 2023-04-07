@@ -1,5 +1,4 @@
 import argparse
-import io
 import sys
 from collections.abc import Iterable
 from functools import lru_cache

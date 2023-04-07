@@ -1,6 +1,7 @@
-import versioneer
 from setuptools import find_packages
 from setuptools import setup
+
+import versioneer
 
 
 setup(
@@ -8,7 +9,7 @@ setup(
     url="https://github.com/schreiberben/cat-file.git",
     description="A CLI tool to visualize data files",
     author="Ben Schreiber",
-    install_requires=["pandas", "tabulate", "pyarrow", "xlrd", "openpyxl"],
+    install_requires=["pandas<2.0.0", "tabulate", "pyarrow", "xlrd", "openpyxl"],
     extras_require={"tests": ["pytest"]},
     entry_points={"console_scripts": ["cat-file = cat_file.main:main"]},
     packages=find_packages(),

@@ -1,5 +1,6 @@
 import io
 import json
+from typing import Optional
 
 import pandas as pd
 import pytest
@@ -8,36 +9,43 @@ from cat_file.filetypes import DataFile
 from cat_file.filetypes import filetype
 
 
+def provide_buffer(func):
+    def inner(data: pd.DataFrame, buffer: Optional[io.BytesIO] = None):
+        if buffer is None:
+            buffer = io.BytesIO()
+        buffer = func(data, buffer)
+        buffer.seek(0)
+        return buffer
+
+    return inner
+
+
 class Convert:
     @staticmethod
-    def parquet(data: pd.DataFrame) -> io.BytesIO:
-        buffer = io.BytesIO()
+    @provide_buffer
+    def parquet(data: pd.DataFrame, buffer: Optional[io.BytesIO] = None) -> io.BytesIO:
         data.to_parquet(buffer)
-        buffer.seek(0)
         return buffer
 
     @staticmethod
-    def excel(data: pd.DataFrame) -> io.BytesIO:
-        buffer = io.BytesIO()
+    @provide_buffer
+    def excel(data: pd.DataFrame, buffer: Optional[io.BytesIO] = None) -> io.BytesIO:
         with pd.ExcelWriter(buffer) as f:
             data.to_excel(f)
-        buffer.seek(0)
         return buffer
 
     @staticmethod
-    def csv(data: pd.DataFrame) -> io.BytesIO:
-        buffer = io.BytesIO()
+    @provide_buffer
+    def csv(data: pd.DataFrame, buffer: Optional[io.BytesIO] = None) -> io.BytesIO:
         data.to_csv(buffer, index=False)
-        buffer.seek(0)
         return buffer
 
     @staticmethod
-    def json_lines(data: pd.DataFrame) -> io.BytesIO():
-        buffer = io.BytesIO()
+    @provide_buffer
+    def json_lines(data: pd.DataFrame, buffer: Optional[io.BytesIO] = None) -> io.BytesIO():
         for line in data.to_dict(orient="records"):
             buffer.write(json.dumps(line).encode("utf-8"))
             buffer.write(b"\n")
-        buffer.seek(0)
         return buffer
 
 
