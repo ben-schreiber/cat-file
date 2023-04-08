@@ -35,7 +35,7 @@ def zero_buffer(buffer: io.IOBase) -> io.IOBase:
     Example:
     >>> import io
     >>> s = io.BytesIO(...)
-    >>> s.tell
+    >>> s.tell()
     0
     >>> with zero_buffer(s) as buffer:
     >>>     buffer.read(10)
@@ -48,6 +48,7 @@ def zero_buffer(buffer: io.IOBase) -> io.IOBase:
         buffer: A `io.BytesIO` object
     """
     if is_seekable := buffer.seekable():
+        current_tell = buffer.tell()
         buffer.seek(0)
 
     try:
@@ -55,4 +56,4 @@ def zero_buffer(buffer: io.IOBase) -> io.IOBase:
 
     finally:
         if is_seekable:
-            buffer.seek(0)
+            buffer.seek(current_tell)
